@@ -2,9 +2,10 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>暖宝宝 · 未来兑现凭证</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>暖宝宝侠 · 未来兑现凭证</title>
     <style>
+        /* ===== 保持原版所有样式（不变）===== */
         * {
             margin: 0;
             padding: 0;
@@ -19,6 +20,7 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
+            position: relative; /* 为移动端提示定位 */
         }
 
         .certificate {
@@ -34,7 +36,6 @@
             border: 1px solid #fff0f0;
         }
 
-        /* 顶部装饰线条 */
         .certificate::before {
             content: '';
             position: absolute;
@@ -107,6 +108,7 @@
             letter-spacing: 4px;
             margin: 20px 0;
             border: 2px solid #ff6b6b;
+            cursor: pointer;
         }
 
         .instructions {
@@ -138,47 +140,132 @@
             color: #333;
         }
 
-        /* 点击彩蛋 */
+        /* ===== 原版隐藏彩蛋（针对PC和习惯探索的用户）===== */
         .secret-trigger {
             position: absolute;
-            bottom: 20px;
-            right: 20px;
-            width: 20px;
-            height: 20px;
-            opacity: 0.05;
+            bottom: 30px;
+            right: 30px;
+            width: 16px;
+            height: 16px;
+            background: rgba(255, 107, 107, 0.08);
+            border-radius: 50%;
             cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 107, 107, 0.2);
         }
 
-        .secret-message {
-            display: none;
-            position: fixed;
+        .secret-trigger:hover {
+            background: rgba(255, 107, 107, 0.2);
+            transform: scale(1.3);
+            box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.1);
+        }
+
+        /* PC端悬停提示 */
+        .secret-trigger:hover::after {
+            content: "✨";
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+            opacity: 1;
+            animation: float 2s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* ===== 新增：移动端专属提示（只有移动端才显示）===== */
+        .mobile-hint {
+            display: none; /* 默认隐藏 */
+            position: absolute;
+            bottom: 25px;
+            right: 25px;
+            width: 24px;
+            height: 24px;
+            background: rgba(255, 107, 107, 0.15);
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid rgba(255, 107, 107, 0.3);
+            animation: pulse 2s infinite;
+            z-index: 10;
+        }
+
+        .mobile-hint::after {
+            content: "✨";
+            position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: white;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-            z-index: 100;
-            max-width: 80%;
-            text-align: center;
-            animation: fadeIn 0.5s;
+            font-size: 14px;
         }
 
-        .secret-message p {
-            font-size: 1.3rem;
-            color: #333;
+        @keyframes pulse {
+            0%, 100% { 
+                box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.4);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 0 8px rgba(255, 107, 107, 0);
+                transform: scale(1.1);
+            }
+        }
+
+        /* ===== 彩蛋弹窗样式 ===== */
+        .secret-message {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.3s;
+        }
+
+        .secret-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            animation: slideUp 0.4s;
+        }
+
+        .secret-content h3 {
+            color: #ff6b6b;
+            font-size: 1.8rem;
             margin-bottom: 20px;
         }
 
+        .secret-content p {
+            font-size: 1.3rem;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
         .close-btn {
-            background: #ff6b6b;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
             color: white;
             border: none;
-            padding: 10px 25px;
+            padding: 14px 35px;
             border-radius: 50px;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: transform 0.2s;
+        }
+
+        .close-btn:active {
+            transform: scale(0.95);
         }
 
         @keyframes fadeIn {
@@ -186,13 +273,105 @@
             to { opacity: 1; }
         }
 
-        /* 响应式调整 */
-        @media (max-width: 600px) {
-            .certificate { padding: 30px 20px; }
-            .hero-title { font-size: 2rem; }
-            .to-name { font-size: 1.8rem; }
-            .promise-text { font-size: 1.1rem; }
-            .code-box { font-size: 1.3rem; padding: 12px 20px; }
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== 响应式：只在移动端显示提示 ===== */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                align-items: flex-start;
+                min-height: 100vh;
+                height: 100%;
+            }
+            
+            .certificate {
+                padding: 35px 25px;
+                margin-top: 20px;
+                max-width: 100%;
+            }
+            
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .to-name {
+                font-size: 1.8rem;
+            }
+            
+            .promise-text {
+                font-size: 1.2rem;
+            }
+            
+            .code-box {
+                font-size: 1.5rem;
+                padding: 12px 25px;
+            }
+            
+            /* 移动端：显示提示点，隐藏原版极难点 */
+            .mobile-hint {
+                display: block;
+            }
+            
+            .secret-trigger {
+                display: none; /* 在移动端隐藏极难发现的点 */
+            }
+            
+            /* 移动端长按提示 */
+            .code-box::after {
+                content: "📋 点击复制";
+                display: block;
+                margin-top: 10px;
+                font-size: 0.9rem;
+                color: #666;
+                font-family: sans-serif;
+                letter-spacing: normal;
+            }
+        }
+
+        /* PC端优化 */
+        @media (min-width: 769px) {
+            .mobile-hint {
+                display: none !important; /* PC端强制隐藏提示 */
+            }
+            
+            .secret-trigger {
+                display: block; /* PC端显示原版点 */
+            }
+            
+            .certificate {
+                margin: 0 auto;
+            }
+        }
+
+        /* 复制成功提示 */
+        .copy-success {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 12px;
+            z-index: 1001;
+            display: none;
+            font-size: 1.1rem;
+            text-align: center;
+            animation: popIn 0.3s;
+        }
+
+        @keyframes popIn {
+            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
         }
     </style>
 </head>
@@ -208,14 +387,14 @@
                 与一份<span class="highlight">随时生效的倾听陪伴</span>。
             </p>
 
-            <div class="code-box" id="couponCode">NBB-toZZ-2026</div>
-
-            <p style="color: #777; margin-top: 10px;">
+            <div class="code-box" id="couponCode">NBB-DRtoZZ-2026</div>
+			
+			<p style="color: #777; margin-top: 10px;">
                 🎫 兑换码已生成 | 有效期：永久
             </p>
         </div>
 
-        <div class="instructions">
+		<div class="instructions">
             <h3>📖 使用说明</h3>
             <p>1. 此凭证可在你感到寒冷、疲惫或需要陪伴的任何时刻兑现。</p>
             <p>2. 兑换方式：向签发人出示此网页，并说出通关密语：“阿锐，我需要补给！”</p>
@@ -223,23 +402,44 @@
             <p>4. 本凭证不记名、不挂失，但仅限你本人使用。</p>
         </div>
 
-        <div class="signature">
-            <p>签发人：[a锐]</p>
-            <p>签发日期：<span id="currentDate"></span></p>
+        <div style="color: #777; font-size: 0.9rem; text-align: center; margin-top: 25px;">
+            <p style="margin-top: 5px;">📅 签发日期：<span id="currentDate"></span></p>
+            <p style="margin-top: 5px;">✍️ 签发人：[a锐]</p>
         </div>
-
+		
         <div class="footer">
             <p>※ 本凭证最终解释权归[Arui]所有，但所有条款都倾向于你。</p>
         </div>
 
-        <!-- 彩蛋触发区域 -->
-        <div class="secret-trigger" id="secretTrigger"></div>
+        
+        <!-- 原版隐藏彩蛋（PC端） -->
+        <div class="secret-trigger" id="secretTriggerPC"></div>
     </div>
+
+    <!-- 移动端专属提示（只在手机显示） -->
+    <div class="mobile-hint" id="mobileHint"></div>
 
     <!-- 彩蛋弹窗 -->
     <div class="secret-message" id="secretMessage">
-        <p>其实，这个网页最想兑现的，是让你知道：<br><strong>“你永远可以向我发出求救信号。”</strong></p>
-        <button class="close-btn" onclick="closeSecret()">收到</button>
+        <div class="secret-content">
+            <h3>💝 给特别的你</h3>
+            <p>
+                其实，这个网页最想兑现的，<br>
+                是让你知道：<br><br>
+                <strong style="color: #ff6b6b; font-size: 1.4rem;">
+                    “你永远可以向我发出任何信号。”
+                </strong><br><br>
+                无论是需要温暖、倾听，<br>
+                还是只是想分享一片好看的云。
+            </p>
+            <button class="close-btn" id="closeSecretBtn">💌 我收到了</button>
+        </div>
+    </div>
+
+    <!-- 复制成功提示 -->
+    <div class="copy-success" id="copySuccess">
+        <div style="font-size: 2rem; margin-bottom: 10px;">✅</div>
+        兑换码已复制到剪贴板！
     </div>
 
     <script>
@@ -247,20 +447,171 @@
         const now = new Date();
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         document.getElementById('currentDate').textContent = now.toLocaleDateString('zh-CN', options);
-
-        // 点击彩蛋
-        document.getElementById('secretTrigger').addEventListener('click', function() {
-            document.getElementById('secretMessage').style.display = 'block';
-        });
-
-        function closeSecret() {
-            document.getElementById('secretMessage').style.display = 'none';
+        
+        // ===== 设备检测 =====
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        
+        // ===== 彩蛋交互 =====
+        const secretMessage = document.getElementById('secretMessage');
+        const closeSecretBtn = document.getElementById('closeSecretBtn');
+        
+        // 根据设备选择触发器
+        let secretTrigger;
+        if (isMobile) {
+            secretTrigger = document.getElementById('mobileHint');
+        } else {
+            secretTrigger = document.getElementById('secretTriggerPC');
         }
-
-        // 轻微交互：点击兑换码可以复制（可选功能，需要较复杂代码，这里简化）
-        document.getElementById('couponCode').addEventListener('click', function() {
-            alert('兑换码已高亮，你可以复制它：' + this.innerText);
-            // 实际部署时，这里可以加入复制到剪贴板的代码
+        
+        // 显示彩蛋
+        function showSecret() {
+            secretMessage.style.display = 'flex';
+            if (navigator.vibrate) navigator.vibrate(30);
+            
+            // 如果是移动端，点击后隐藏提示（避免重复点击）
+            if (isMobile) {
+                secretTrigger.style.display = 'none';
+            }
+        }
+        
+        // 隐藏彩蛋
+        function hideSecret() {
+            secretMessage.style.display = 'none';
+        }
+        
+        // 绑定事件
+        secretTrigger.addEventListener('click', showSecret);
+        closeSecretBtn.addEventListener('click', hideSecret);
+        
+        // 点击弹窗外部也关闭
+        secretMessage.addEventListener('click', function(event) {
+            if (event.target === secretMessage) {
+                hideSecret();
+            }
+        });
+        
+        // ===== 兑换码复制功能 =====
+        const couponCode = document.getElementById('couponCode');
+        const copySuccess = document.getElementById('copySuccess');
+        
+        couponCode.addEventListener('click', async function() {
+            const code = this.innerText;
+            
+            try {
+                await navigator.clipboard.writeText(code);
+                showCopySuccess();
+            } catch (err) {
+                if (copyWithExecCommand(code)) {
+                    showCopySuccess();
+                } else {
+                    showManualCopyPrompt(code);
+                }
+            }
+        });
+        
+        function copyWithExecCommand(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.opacity = '0';
+            document.body.appendChild(textArea);
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                document.body.removeChild(textArea);
+                return successful;
+            } catch (err) {
+                document.body.removeChild(textArea);
+                return false;
+            }
+        }
+        
+        function showCopySuccess() {
+            copySuccess.style.display = 'block';
+            setTimeout(() => {
+                copySuccess.style.display = 'none';
+            }, 1500);
+        }
+        
+        function showManualCopyPrompt(code) {
+            if (isMobile) {
+                // 移动端使用更友好的提示
+                const promptDiv = document.createElement('div');
+                promptDiv.innerHTML = `
+                    <div style="
+                        position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
+                        background: rgba(0,0,0,0.8); z-index: 2000; 
+                        display: flex; align-items: center; justify-content: center; padding: 20px;
+                    ">
+                        <div style="
+                            background: white; border-radius: 15px; padding: 25px; 
+                            max-width: 300px; width: 100%; text-align: center;
+                        ">
+                            <p style="margin-bottom: 15px; font-weight: bold;">请手动复制兑换码：</p>
+                            <div style="
+                                background: #f5f5f5; padding: 15px; border-radius: 8px; 
+                                margin: 15px 0; font-family: monospace; font-size: 1.2rem;
+                                word-break: break-all;
+                            ">${code}</div>
+                            <p style="font-size: 0.9rem; color: #666; margin-bottom: 20px;">
+                                📱 长按上方灰色区域，选择"复制"
+                            </p>
+                            <button onclick="this.parentElement.parentElement.remove()" style="
+                                background: #ff6b6b; color: white; border: none; 
+                                padding: 12px 30px; border-radius: 25px; cursor: pointer;
+                            ">
+                                已复制
+                            </button>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(promptDiv);
+            } else {
+                alert(`请手动复制兑换码：\n\n${code}`);
+            }
+        }
+        
+        // ===== 移动端优化 =====
+        if (isMobile) {
+            // 禁止双击缩放
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', function(event) {
+                const now = Date.now();
+                if (now - lastTouchEnd <= 300) {
+                    event.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, { passive: false });
+            
+            // 移动端加载后添加一个初始提示（3秒后消失）
+            setTimeout(() => {
+                const hint = document.createElement('div');
+                hint.innerHTML = `
+                    <div style="
+                        position: fixed; top: 20px; right: 20px; 
+                        background: rgba(255,107,107,0.1); color: #ff6b6b;
+                        padding: 10px 15px; border-radius: 20px; font-size: 0.9rem;
+                        border: 1px solid rgba(255,107,107,0.3); z-index: 50;
+                        animation: fadeOut 3s forwards;
+                    ">
+                        💡 右下角有惊喜
+                    </div>
+                `;
+                document.body.appendChild(hint);
+                
+                // 3秒后移除
+                setTimeout(() => {
+                    if (hint.parentNode) {
+                        hint.parentNode.removeChild(hint);
+                    }
+                }, 3000);
+            }, 1000);
+        }
+        
+        // 确保彩蛋弹窗默认隐藏
+        document.addEventListener('DOMContentLoaded', function() {
+            secretMessage.style.display = 'none';
         });
     </script>
 </body>
