@@ -576,7 +576,30 @@
             }, { passive: false });
             
             // 移动端加载后添加一个初始提示（3秒后消失）
-        
+                    setTimeout(() => {
+                const hint = document.createElement('div');
+                hint.innerHTML = `
+                    <div style="
+                        position: fixed; top: 20px; right: 20px; 
+                        background: rgba(255,107,107,0.1); color: #ff6b6b;
+                        padding: 10px 15px; border-radius: 20px; font-size: 0.9rem;
+                        border: 1px solid rgba(255,107,107,0.3); z-index: 50;
+                        animation: fadeOut 3s forwards;
+                    ">
+                        💡 右下角有彩蛋
+                    </div>
+                `;
+                document.body.appendChild(hint);
+                
+                // 3秒后移除
+                setTimeout(() => {
+                    if (hint.parentNode) {
+                        hint.parentNode.removeChild(hint);
+                    }
+                }, 3000);
+            }, 1000);
+        }
+		
         // 确保彩蛋弹窗默认隐藏
         document.addEventListener('DOMContentLoaded', function() {
             secretMessage.style.display = 'none';
