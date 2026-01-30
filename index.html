@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>暖宝宝 · 未来兑现凭证</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fdfcfb 0%, #f5f7fa 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .certificate {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(255, 107, 107, 0.15);
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #fff0f0;
+        }
+
+        /* 顶部装饰线条 */
+        .certificate::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #ff9a9e 0%, #fad0c4 100%);
+        }
+
+        .hero-title {
+            color: #ff6b6b;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        .voucher-card {
+            background: linear-gradient(120deg, #fff5f5 0%, #fff 100%);
+            border: 2px dashed #ffccd5;
+            border-radius: 18px;
+            padding: 35px 25px;
+            margin: 30px 0;
+            position: relative;
+            transform: translateY(0);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+        }
+
+        .voucher-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.2);
+        }
+
+        .to-name {
+            font-size: 2.2rem;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .promise-text {
+            font-size: 1.4rem;
+            color: #555;
+            line-height: 1.6;
+            margin: 25px 0;
+            padding: 0 10px;
+        }
+
+        .promise-text .highlight {
+            color: #ff6b6b;
+            font-weight: 700;
+        }
+
+        .code-box {
+            display: inline-block;
+            background: #333;
+            color: #fff;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-family: monospace;
+            font-size: 1.8rem;
+            letter-spacing: 4px;
+            margin: 20px 0;
+            border: 2px solid #ff6b6b;
+        }
+
+        .instructions {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: left;
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .instructions h3 {
+            color: #ff6b6b;
+            margin-bottom: 10px;
+        }
+
+        .footer {
+            margin-top: 40px;
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .signature {
+            margin-top: 30px;
+            font-family: cursive;
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        /* 点击彩蛋 */
+        .secret-trigger {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 20px;
+            height: 20px;
+            opacity: 0.05;
+            cursor: pointer;
+        }
+
+        .secret-message {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            z-index: 100;
+            max-width: 80%;
+            text-align: center;
+            animation: fadeIn 0.5s;
+        }
+
+        .secret-message p {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .close-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 600px) {
+            .certificate { padding: 30px 20px; }
+            .hero-title { font-size: 2rem; }
+            .to-name { font-size: 1.8rem; }
+            .promise-text { font-size: 1.1rem; }
+            .code-box { font-size: 1.3rem; padding: 12px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="certificate">
+        <h1 class="hero-title">🛡️ 暖宝宝</h1>
+        <p class="subtitle">未来温暖补给凭证系统</p>
+
+        <div class="voucher-card">
+            <h2 class="to-name">致：[珍珍]</h2>
+            <p class="promise-text">
+                此凭证代表一次<span class="highlight">无时限的温暖补给</span>，<br>
+                与一份<span class="highlight">随时生效的倾听陪伴</span>。
+            </p>
+
+            <div class="code-box" id="couponCode">NBB-toZZ-2026</div>
+
+            <p style="color: #777; margin-top: 10px;">
+                🎫 兑换码已生成 | 有效期：永久
+            </p>
+        </div>
+
+        <div class="instructions">
+            <h3>📖 使用说明</h3>
+            <p>1. 此凭证可在你感到寒冷、疲惫或需要陪伴的任何时刻兑现。</p>
+            <p>2. 兑换方式：向签发人出示此网页，并说出通关密语：“阿锐，我需要补给！”</p>
+            <p>3. 兑现内容：一份实体暖宝宝 + 一杯热饮 + 一次不限时的倾听。</p>
+            <p>4. 本凭证不记名、不挂失，但仅限你本人使用。</p>
+        </div>
+
+        <div class="signature">
+            <p>签发人：[a锐]</p>
+            <p>签发日期：<span id="currentDate"></span></p>
+        </div>
+
+        <div class="footer">
+            <p>※ 本凭证最终解释权归[Arui]所有，但所有条款都倾向于你。</p>
+        </div>
+
+        <!-- 彩蛋触发区域 -->
+        <div class="secret-trigger" id="secretTrigger"></div>
+    </div>
+
+    <!-- 彩蛋弹窗 -->
+    <div class="secret-message" id="secretMessage">
+        <p>其实，这个网页最想兑现的，是让你知道：<br><strong>“你永远可以向我发出求救信号。”</strong></p>
+        <button class="close-btn" onclick="closeSecret()">收到</button>
+    </div>
+
+    <script>
+        // 设置当前日期
+        const now = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('currentDate').textContent = now.toLocaleDateString('zh-CN', options);
+
+        // 点击彩蛋
+        document.getElementById('secretTrigger').addEventListener('click', function() {
+            document.getElementById('secretMessage').style.display = 'block';
+        });
+
+        function closeSecret() {
+            document.getElementById('secretMessage').style.display = 'none';
+        }
+
+        // 轻微交互：点击兑换码可以复制（可选功能，需要较复杂代码，这里简化）
+        document.getElementById('couponCode').addEventListener('click', function() {
+            alert('兑换码已高亮，你可以复制它：' + this.innerText);
+            // 实际部署时，这里可以加入复制到剪贴板的代码
+        });
+    </script>
+</body>
+</html>
